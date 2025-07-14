@@ -1,62 +1,69 @@
 package com.vitoriaferreira.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-//quem solicita o serviço
+//a manutenção solicitado
 @Entity
-public class User implements Serializable {
+public class Service implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
-    private String email;
+    private String description;
+    private String status;
 
-    // relacionamento : User pode ter vários serviços
-    // Vick → troca de bateria, troca de tela, limpeza de notebook
-    @OneToMany(mappedBy = "user")
-    private List<Service> services = new ArrayList<>();
+    // relacionamento: Varios serviços podem ser solicitado por um usuário
+    @ManyToOne
+    @JoinColumn(name = "user_id") // FK
+    private User user;
 
     // Default constructor
-    public User() {
+    public Service() {
     }
 
     // Constructor
-    public User(Integer id, String name, String email) {
+    public Service(Integer id, String description, String status, User user) {
         this.id = id;
-        this.name = name;
-        this.email = email;
+        this.description = description;
+        this.status = status;
+        this.user = user;
     }
 
-    // Getters and Setters
     public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getEmail() {
-        return email;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -75,7 +82,7 @@ public class User implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        Service other = (Service) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

@@ -1,13 +1,15 @@
 package com.vitoriaferreira.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+//o dispositivo que sera concertado
 @Entity
 public class Device implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,60 +17,51 @@ public class Device implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nameService;
-    private LocalDate dateService;
-    private String status;
+    private String type; // celular, tablet ..
+    private String brand; // Samsung, Apple, Motorola, etc.
 
-    private User user;
+    // relacionamento: Um dispositivo pode estar relacionado a varios serviços
+    @OneToMany(mappedBy = "device")
+    private List<Service> services;
 
     // Default constructor
     public Device() {
+
     }
 
     // Constructor
-    public Device(Integer id, String nameService, LocalDate dateService, String status, User user) {
+    public Device(Integer id, String type, String brand) {
         this.id = id;
-        this.nameService = nameService;
-        this.dateService = dateService;
-        this.status = status;
-        this.user = user;
+        this.type = type;
+        this.brand = brand;
     }
 
-    // Getters and Setters
     public Integer getId() {
         return id;
     }
 
-    public String getNameService() {
-        return nameService;
+    public String getType() {
+        return type;
     }
 
-    public void setNameService(String nameService) {
-        this.nameService = nameService;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public LocalDate getDateService() {
-        return dateService;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setDateService(LocalDate dateService) {
-        this.dateService = dateService;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public String getStatus() {
-        return status;
+    public List<Service> getServices() {
+        return services;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 
     @Override
@@ -76,6 +69,7 @@ public class Device implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((brand == null) ? 0 : brand.hashCode());
         return result;
     }
 
@@ -92,6 +86,11 @@ public class Device implements Serializable {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
+            return false;
+        if (brand == null) {
+            if (other.brand != null)
+                return false;
+        } else if (!brand.equals(other.brand))
             return false;
         return true;
     }
