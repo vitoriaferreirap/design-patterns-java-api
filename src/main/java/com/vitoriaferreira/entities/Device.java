@@ -22,7 +22,7 @@ public class Device implements Serializable {
 
     // relacionamento: Um dispositivo pode estar relacionado a varios serviços
     @OneToMany(mappedBy = "device")
-    private List<Service> services;
+    private List<ServiceDevice> services;
 
     // Default constructor
     public Device() {
@@ -56,11 +56,11 @@ public class Device implements Serializable {
         this.brand = brand;
     }
 
-    public List<Service> getServices() {
+    public List<ServiceDevice> getServices() {
         return services;
     }
 
-    public void setServices(List<Service> services) {
+    public void setServices(List<ServiceDevice> services) {
         this.services = services;
     }
 

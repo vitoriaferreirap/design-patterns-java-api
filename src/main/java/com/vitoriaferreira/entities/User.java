@@ -27,7 +27,7 @@ public class User implements Serializable {
     // relacionamento : User pode ter vários serviços
     // Vick → troca de bateria, troca de tela, limpeza de notebook
     @OneToMany(mappedBy = "user")
-    private List<Service> services = new ArrayList<>();
+    private List<ServiceDevice> services = new ArrayList<>();
 
     // Default constructor
     public User() {

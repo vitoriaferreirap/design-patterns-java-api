@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 
 //a manutenção solicitado
 @Entity
-public class Service implements Serializable {
+public class ServiceDevice implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -32,11 +32,11 @@ public class Service implements Serializable {
     private Device device;
 
     // Default constructor
-    public Service() {
+    public ServiceDevice() {
     }
 
     // Constructor
-    public Service(Integer id, String description, String status, User user) {
+    public ServiceDevice(Integer id, String description, String status, User user) {
         this.id = id;
         this.description = description;
         this.status = status;
@@ -87,7 +87,7 @@ public class Service implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Service other = (Service) obj;
+        ServiceDevice other = (ServiceDevice) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
