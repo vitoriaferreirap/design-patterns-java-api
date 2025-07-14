@@ -26,6 +26,11 @@ public class Service implements Serializable {
     @JoinColumn(name = "user_id") // FK
     private User user;
 
+    // relacionamento: Varios serviços podem ser solicitado para um dispositivo
+    @ManyToOne
+    @JoinColumn(name = "device_id") // FK
+    private Device device;
+
     // Default constructor
     public Service() {
     }
