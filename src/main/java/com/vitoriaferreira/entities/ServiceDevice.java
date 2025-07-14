@@ -71,6 +71,14 @@ public class ServiceDevice implements Serializable {
         this.user = user;
     }
 
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

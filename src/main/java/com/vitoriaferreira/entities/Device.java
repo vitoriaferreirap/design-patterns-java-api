@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //o dispositivo que sera concertado
 @Entity
 public class Device implements Serializable {
@@ -22,6 +24,7 @@ public class Device implements Serializable {
 
     // relacionamento: Um dispositivo pode estar relacionado a varios serviços
     @OneToMany(mappedBy = "device")
+    @JsonIgnore
     private List<ServiceDevice> services;
 
     // Default constructor
