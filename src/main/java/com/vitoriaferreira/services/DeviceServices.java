@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.vitoriaferreira.config.ConfigManager;
 import com.vitoriaferreira.entities.Device;
 import com.vitoriaferreira.repositories.DeviceRepository;
 
@@ -13,6 +15,15 @@ public class DeviceServices {
 
     @Autowired
     private DeviceRepository deviceRepository;
+
+    // Método para consultar um dispositivo externo usando ConfigManager
+    public String consultarDispositivoExterno() {
+        // busca em ConfigManager a URL da API
+        String url = ConfigManager.getInstance().getConfig("deviceApiUrl");
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(url, String.class);
+        return response;
+    }
 
     public List<Device> findAll() {
         return deviceRepository.findAll();

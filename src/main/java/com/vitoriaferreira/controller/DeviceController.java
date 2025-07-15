@@ -27,6 +27,13 @@ public class DeviceController {
 
     // endpoints
 
+    // Endpoint para consultar um dispositivo de API externa
+    @GetMapping("/external")
+    public ResponseEntity<String> consultarDispositivoExterno() {
+        String response = deviceServices.consultarDispositivoExterno();
+        return ResponseEntity.ok().body(response);
+    }
+
     @GetMapping
     public ResponseEntity<List<Device>> findAll() {
         List<Device> devices = deviceServices.findAll();
