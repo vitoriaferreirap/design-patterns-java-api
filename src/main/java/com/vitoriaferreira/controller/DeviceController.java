@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.vitoriaferreira.entities.Device;
+import com.vitoriaferreira.factory.CellphoneFactory;
+import com.vitoriaferreira.factory.ComputerFactory;
+import com.vitoriaferreira.factory.DeviceFactory;
 import com.vitoriaferreira.services.DeviceServices;
 
 @RestController
@@ -40,9 +43,22 @@ public class DeviceController {
         return ResponseEntity.ok().body(devices);
     }
 
+    // criação do objeto Device fica centralizada nas fábricas
     @PostMapping
     public ResponseEntity<Device> insert(@RequestBody Device device) {
-        device = deviceServices.insert(device);
+        DeviceFactory factory;
+        // Verifica o tipo do dispositivo e cria a fábrica correspondente
+        if ("Computador".equalsIgnoreCase(device.getType())) {
+            factory = new ComputerFactory();
+        } else if ("Celular".equalsIgnoreCase(device.getType())) {
+            factory = new CellphoneFactory();
+        } else {
+            // Fábrica padrão
+            factory = (brand, model) -> new Device(null, device.getType(), brand);
+        }
+        Device novoDevice = factory.createDevice(device.getBrand(), null);
+        novoDevice = deviceServices.insert(novoDevice);
+        // Cria a URI do novo dispositivo inserido
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(device.getId()).toUri();
         return ResponseEntity.created(uri).body(device);
